@@ -11,13 +11,34 @@
 <body>
 <div class="container">
     <h1>Empleados con Mayor Salario en la Empresa</h1>
-    <!-- COMPLETAR -->
-    <table class="table">
+    <form class="input-group mb-lg-3" method="post" th:action="@{'/Search/busqueda'}">
+        <input type="number" class="form-control" placeholder="Digita el salario a buscar" name="search">
+        <div class="input-group-append">
+            <button class="btn btn-outline-primary ml-2 mr-2" type="submit">Buscar</button>
+            <a th:href="@{'/Search/Salario'}" class="btn btn-outline-danger">Limpiar</a>
+            <a th:href="@{'/Search'}" class="btn btn-primary ml-2 mr-2">Regresar</a>
+        </div>
+    </form>
+    <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success"></div>
+    <div th:if="${lista.size() == 0}" class="alert alert-success">No hay resultados</div>
+    <table class="table" th:if="${lista.size() != 0}">
         <thead>
-        <!-- COMPLETAR -->
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Fecha de Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Puesto</th>
+        </tr>
         </thead>
         <tbody>
-        <!-- COMPLETAR -->
+        <tr th:each="salario : ${lista}">
+            <td th:text="${salario.getnombre()}"></td>
+            <td th:text="${salario.getapellido()}"></td>
+            <td th:text="${#dates.format(salario.getfechainicio(),'dd-MM-yyyy')}"></td>
+            <td th:text="${#dates.format(salario.getfechafin(),'dd-MM-yyyy')}"></td>
+            <td th:text="${salario.getpuesto()}"></td>
+        </tr>
         </tbody>
     </table>
 </div>

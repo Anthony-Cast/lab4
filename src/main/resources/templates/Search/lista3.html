@@ -8,18 +8,34 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <title>Lista de Empleados</title>
 </head>
-    <body>
-        <div class="container">
-        <h1>Empleados por Departamento</h1>
-            <table class="table">
-                <thead>
-                <!-- COMPLETAR -->
-                </thead>
-                <tbody>
-                <!-- COMPLETAR -->
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </body>
+<body>
+<div class="container">
+    <h1>Empleados por Departamento</h1>
+
+    <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success"></div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Cargo</th>
+            <th>Sueldo</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="emp : ${listaEmpleadoxDep}">
+            <td th:text="${emp.getemployeeid()}"></td>
+            <td th:text="${emp.getnombre()}"></td>
+            <td th:text="${emp.getapellido()}"></td>
+            <td th:text="${emp.getcargo()}"></td>
+            <td th:text="${emp.getsueldo()}"></td>
+            <td><a class="btn btn-primary" th:href="@{'/employee/edit' + '?id=' + ${emp.getemployeeid()}}">Editar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
 </html>
