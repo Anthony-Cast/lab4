@@ -12,33 +12,43 @@ public class Employees {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_id")
     private int employeeid;
+
     @NotBlank
     @Size(max = 20, message = "El nombre no puede sobrepasar los 20 caracteres")
     @Column(name = "first_name")
     private String firstname;
+
     @Column(name = "last_name",nullable = false)
     @NotBlank
     @Size(max = 25, message = "El apellido no puede tener más de 25 caracteres")
     private String lastname;
+
     @Column(nullable = false)
     @Email(message = "Se debe seguir el formato siguiente: nombre@correo.com")
     private String email;
+
     @NotBlank (message = "No puede dejar el campo vacío")
     @Size(min = 8, message = "Debe de tener un mínimo de 8 caracteres")
     @Size(max = 65, message = "Debe tener un máximo de 65 carateres")
     private String password;
+
     @Column(name = "phone_number")
     private String phonenumber;
+
     @Column(name = "hire_date")
     private Date hiredate;
+
     @ManyToOne
     @JoinColumn(name = "job_id")
     private Jobs jobid;
+
     @Digits(integer = 8, fraction = 2)
     @Positive
     private int salary;
+
     @Column(name = "manager_id")
     private Employees managerid;
+
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Departments departmentid;
