@@ -9,9 +9,9 @@
     <title>Empleado</title>
 </head><body class="container">
 <h2 th:text="${employees.employeeid == 0? 'Nuevo Empleado' : 'Editar Empleado'}"></h2><hr />
-<form method="post" th:action="@{/employees/save}" th:object="${employees}">
-    <input th:field="*{employeeid}" name="id" type="hidden"/>
-    <input type="hidden" id="hire_date" th:field="*{hiredate}">
+<form method="post" th:action="@{/employee/save}" th:object="${employees}">
+    <input type="hidden" name="employeeid"  th:value="*{employeeid}" />
+    <input type="hidden" name="fechaContrato" th:value="*{hiredate}">
     <div class="row">
         <div class="form-group col-6">
             <label for="firstname">Nombre</label>
@@ -28,7 +28,7 @@
     </div>
     <div class="row">
         <div class="form-group col-6">
-            <label for="email">Correo Electónico</label>
+            <label for="email">Correo Electrónico</label>
             <input th:field="*{email}" type="text" class="form-control" name="email" id="email">
             <div class="text-danger" th:if="${#fields.hasErrors('email')}"
              th:errors="*{email}"></div>
@@ -47,7 +47,7 @@
                 <option th:each="trabajo: ${listaJobs}"
                         th:value="${trabajo.jobid}"
                         th:text="${trabajo.jobtitle}"
-                        th:selected="${trabajo.jobid == employees.jobid.jobid}"></option>
+                        th:selected="${trabajo.jobid == employees.jobid}"></option>
             </select>
         </div>
         <div class="form-group col-6">
@@ -60,8 +60,8 @@
 
     <div class="row">
         <div class="form-group col-6">
-            <label for="manager_id">Jefe</label>
-            <select class="form-control" name="manager_id" id="manager_id">
+            <label for="managerid">Jefe</label>
+            <select class="form-control" name="managerid" id="managerid">
                 <option th:each="jefe: ${listaDepartamentosconJefes}"
                         th:value="${jefe.managerid.employeeid}"
                         th:text="${jefe.managerid.firstname} + ' ' + ${jefe.managerid.lastname}"

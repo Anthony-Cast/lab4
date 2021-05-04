@@ -63,6 +63,7 @@ public class EmployeeController {
                                   @RequestParam(name="fechaContrato", required=false) String fechaContrato, Model model) {
 
         if(bindingResult.hasErrors()){
+            System.out.println("TRACE0");
             model.addAttribute("listaJobs", jobsRepository.findAll());
             model.addAttribute("listaJefes", employeesRepository.findAll());
             model.addAttribute("listaDepartments", departmentsRepository.findAll());
@@ -70,12 +71,13 @@ public class EmployeeController {
         }else {
 
             if (employees.getEmployeeid() == 0) {
+                System.out.println("TRACE1");
                 attr.addFlashAttribute("msg", "Empleado creado exitosamente");
                 employees.setHiredate(new Date());
                 employeesRepository.save(employees);
                 return "redirect:/employee";
             } else {
-
+                System.out.println("TRACE2");
                 try {
                     employees.setHiredate(new SimpleDateFormat("yyyy-MM-dd").parse(fechaContrato));
                 } catch (ParseException e) {
