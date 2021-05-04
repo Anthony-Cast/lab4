@@ -97,7 +97,7 @@
         </div>
     </div>
     <a th:href="@{/employee}" class="btn btn-danger">Cancelar</a>
-    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <button type="submit" class="btn btn-primary" th:text="${employees.employeeid == 0? 'Registrar' : 'Actualizar'}"></button>
 </form>
 </body>
 </html>
