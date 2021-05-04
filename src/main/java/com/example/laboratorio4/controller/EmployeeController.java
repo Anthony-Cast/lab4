@@ -42,7 +42,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/new")
-    public String nuevoEmployeeForm(Model model) {
+    public String nuevoEmployeeForm(Model model, @ModelAttribute("employees") Employees employees) {
         model.addAttribute("listaDepartaments", departmentsRepository.findAll());
         List<Departments> departmentOpt = departmentsRepository.findAll();
         List<Departments> departamentosFinales = new ArrayList<Departments>();
