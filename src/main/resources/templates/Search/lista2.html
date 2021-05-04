@@ -20,7 +20,7 @@
         </div>
     </form>
     <div th:if="${msg != null}" th:text="${msg}" class="alert alert-success"></div>
-    <div th:if="${lista.size() == 0}" class="alert alert-success">No hay resultados</div>
+    <div th:if="${lista.size() == 0}" class="alert alert-danger">No hay resultados</div>
     <table class="table" th:if="${lista.size() != 0}">
         <thead>
         <tr>
