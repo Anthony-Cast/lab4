@@ -84,7 +84,7 @@ public class EmployeeController {
 
                 employeesRepository.save(employees);
                 attr.addFlashAttribute("msg", "Empleado actualizado exitosamente");
-                return "redirect:/employees";
+                return "redirect:/employee";
             }
         }
     }
@@ -97,7 +97,7 @@ public class EmployeeController {
             Employees emplo = new Employees();
             if((emplo = employees.getManagerid()) == null){
                 redirectAttributes.addFlashAttribute("nohayjefe", "No puedes editar a este usuario. MANAGER_ID = NULL");
-                return "redirect:/employees";
+                return "redirect:/employee";
             }
             model.addAttribute("employees", employees);
             model.addAttribute("listaDepartaments", departmentsRepository.findAll());
@@ -112,7 +112,7 @@ public class EmployeeController {
             model.addAttribute("listaDepartamentosconJefes", departamentosFinales);
             return "employee/Frm";
         } else {
-            return "redirect:/employees";
+            return "redirect:/employee";
         }
 
     }
@@ -133,9 +133,10 @@ public class EmployeeController {
     }
 
     @PostMapping("/search")
-    public String buscar (){
-
-        //COMPLETAR
+    public String buscar (@RequestParam("name") String name, Model model){
+        List<Employees> employeesOpt = employeesRepository.listarEmpleadosPorNombreApellidoDepartamentoPuestoCiudad(name);
+        model.addAttribute("listaEmpleados",employeesOpt);
+        return "employee/lista";
     }
 
 }

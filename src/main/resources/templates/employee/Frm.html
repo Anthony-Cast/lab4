@@ -9,7 +9,7 @@
     <title>Empleado</title>
 </head><body class="container">
 <h2 th:text="${employees.employeeid == 0? 'Nuevo Empleado' : 'Editar Empleado'}"></h2><hr />
-<form method="post" th:action="@{/employees/guardar}" th:object="${employees}">
+<form method="post" th:action="@{/employees/save}" th:object="${employees}">
     <input th:field="*{employeeid}" name="id" type="hidden"/>
     <input type="hidden" id="hire_date" th:field="*{hiredate}">
     <div class="row">

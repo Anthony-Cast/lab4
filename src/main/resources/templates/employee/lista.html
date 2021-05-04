@@ -11,11 +11,20 @@
 <body>
     <div class="container">
         <h1>Lista de Empleados</h1>
-        <a class="btn btn-primary mt-4 mb-4" th:href="@{}">Nuevo Empleado</a>  <!-- COMPLETAR -->
-        <!-- COMPLETAR -->
+        <a class="btn btn-primary mt-4 mb-4" th:href="@{/employees/new}">Nuevo Empleado</a>
+        <div th:if="${msg2!=null}" class="alert alert-warning" th:text="${msg2}"></div>
+        <div th:if="${msg1!=null}" class="alert alert-success" th:text="${msg1}"></div>
+        <div th:if="${msg3!=null}" class="alert alert-danger" th:text="${msg3}"></div>
+        <div th:if="${nohayjefe!=null}" class="alert alert-danger" th:text="${nohayjefe}"></div>
+
+        <form class="form-group mb-3" method="post" th:action="@{/employees/search}">
+            <div class="input-group-append">
+                <input class="form-control mr-2" placeholder="Texto a buscar" name="name">
+                <button class="btn btn-outline-primary" type="submit">Buscar</button>
+                <a class="btn btn-outline-danger ml-2" th:href="@{/employees}">Limpiar</a>
+            </div>
         </form>
-        <!-- COMPLETAR -->
-             <table class="table">  <!-- COMPLETAR -->
+             <table class="table">
                 <thead>
                 <tr>
                     <th>#</th>
