@@ -46,7 +46,8 @@ public class Employees {
     @Positive
     private int salary;
 
-    @Column(name = "manager_id")
+    @ManyToOne
+    @JoinColumn(name = "manager_id")
     private Employees managerid;
 
     @ManyToOne
