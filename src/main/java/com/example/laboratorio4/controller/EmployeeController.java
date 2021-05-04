@@ -39,7 +39,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/new")
-    public String nuevoEmployeeForm() {
+    public String nuevoEmployeeForm(Model model) {
         //COMPLETAR
         return "employee/Frm";
     }
