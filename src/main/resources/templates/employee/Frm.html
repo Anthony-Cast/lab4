@@ -35,33 +35,42 @@
         </div>
         <div class="form-group col-6">
             <label for="password">Contraseña</label>
-            <input th:field="*{password}" type="password" class="form-control" name="password" id="password">
-            <div class="text-danger" th:if="${#fields.hasErrors('password')}"
-                 th:errors="*{password}"></div>
+            <input type="password" class="form-control" name="password" id="password" th:value="*{password}" >
+            <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
         </div>
     </div>
     <div class="row">
-        <div class="form-group col-6">
-            <label for="firstname">Puesto</label>
+        <div class="form-group col-6" th:if="${employees.employeeid}">
+            <label for="jobid">Puesto</label>
             <select class="form-control" th:field="*{jobid}">
-                <option th:each="trabajo: ${listaJobs}"
-                        th:value="${trabajo.jobid}"
-                        th:text="${trabajo.jobtitle}"
+                <option th:each="trabajo: ${listaJobs}" th:value="${trabajo.jobid}" th:text="${trabajo.jobtitle}"></option>
+            </select>
+        </div>
+        <div class="form-group col-6" th:unless="${employees.employeeid}">
+            <label for="jobid">Puesto</label>
+            <select class="form-control" th:field="*{jobid}">
+                <option th:each="trabajo: ${listaJobs}" th:value="${trabajo.jobid}" th:text="${trabajo.jobtitle}"
                         th:selected="${trabajo.jobid == employees.jobid}"></option>
             </select>
         </div>
         <div class="form-group col-6">
             <label for="salary">Sueldo</label>
             <input th:field="*{salary}" type="text" class="form-control" name="salary" id="salary">
-            <div class="text-danger" th:if="${#fields.hasErrors('salary')}"
-                 th:errors="*{salary}"></div>
+            <div class="text-danger" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></div>
         </div>
     </div>
-
     <div class="row">
-        <div class="form-group col-6">
+        <div class="form-group col-6" th:if="${employees.managerid}">
             <label for="managerid">Jefe</label>
-            <select class="form-control" name="managerid" id="managerid">
+            <select class="form-control" th:field="${employees.managerid.employeeid}">
+                <option th:each="jefe: ${listaDepartamentosconJefes}" th:value="${jefe.managerid.employeeid}"
+                        th:text="${jefe.managerid.firstname} + ' ' + ${jefe.managerid.lastname}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group col-6" th:unless="${employees.managerid}">
+            <label for="managerid">Jefe</label>
+            <select class="form-control" th:field="${employees.managerid.employeeid}">
                 <option th:each="jefe: ${listaDepartamentosconJefes}"
                         th:value="${jefe.managerid.employeeid}"
                         th:text="${jefe.managerid.firstname} + ' ' + ${jefe.managerid.lastname}"
@@ -69,13 +78,21 @@
                 </option>
             </select>
         </div>
-        <div class="form-group col-6">
+        <div class="form-group col-6" th:if="${employees.employeeid}">
+            <label for="firstname">Departamento</label>
+            <select class="form-control" th:field="*{departmentid}">
+                <option th:each="departamento: ${listaDepartaments}"
+                        th:value="${departamento.id}"
+                        th:text="${departamento.departmentname}"></option>
+            </select>
+        </div>
+        <div class="form-group col-6" th:unless="${employees.employeeid}">
             <label for="firstname">Departamento</label>
             <select class="form-control" th:field="*{departmentid}">
                 <option th:each="departamento: ${listaDepartaments}"
                         th:value="${departamento.id}"
                         th:text="${departamento.departmentname}"
-                        th:selected="${departamento.id == employees.departmentid.id}"></option>
+                        th:selected="${departamento.id == employees.departmentid}"></option>
             </select>
         </div>
     </div>

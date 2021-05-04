@@ -42,8 +42,10 @@ public class EmployeeController {
     }
 
     @GetMapping("/new")
-    public String nuevoEmployeeForm(Model model, @ModelAttribute("employees") Employees employees) {
+    public String nuevoEmployeeForm(@ModelAttribute("employees") Employees employees, Model model) {
         model.addAttribute("listaDepartaments", departmentsRepository.findAll());
+        model.addAttribute("listaJobs", jobsRepository.findAll());
+
         List<Departments> departmentOpt = departmentsRepository.findAll();
         List<Departments> departamentosFinales = new ArrayList<Departments>();
         for (Departments i : departmentOpt){
@@ -51,7 +53,6 @@ public class EmployeeController {
                 departamentosFinales.add(i);
             }
         }
-        model.addAttribute("listaJobs", jobsRepository.findAll());
         model.addAttribute("listaDepartamentosconJefes", departamentosFinales);
 
         return "employee/Frm";
@@ -63,21 +64,28 @@ public class EmployeeController {
                                   @RequestParam(name="fechaContrato", required=false) String fechaContrato, Model model) {
 
         if(bindingResult.hasErrors()){
-            System.out.println("TRACE0");
+            model.addAttribute("listaDepartaments", departmentsRepository.findAll());
             model.addAttribute("listaJobs", jobsRepository.findAll());
-            model.addAttribute("listaJefes", employeesRepository.findAll());
-            model.addAttribute("listaDepartments", departmentsRepository.findAll());
+            model.addAttribute("employees", employees);
+
+            List<Departments> departmentOpt = departmentsRepository.findAll();
+            List<Departments> departamentosFinales = new ArrayList<Departments>();
+            for (Departments i : departmentOpt){
+                if(i.getManagerid() != null){
+                    departamentosFinales.add(i);
+                }
+            }
+            model.addAttribute("listaDepartamentosconJefes", departamentosFinales);
+
             return "employee/Frm";
         }else {
 
             if (employees.getEmployeeid() == 0) {
-                System.out.println("TRACE1");
                 attr.addFlashAttribute("msg", "Empleado creado exitosamente");
                 employees.setHiredate(new Date());
                 employeesRepository.save(employees);
                 return "redirect:/employee";
             } else {
-                System.out.println("TRACE2");
                 try {
                     employees.setHiredate(new SimpleDateFormat("yyyy-MM-dd").parse(fechaContrato));
                 } catch (ParseException e) {
