@@ -40,7 +40,7 @@ public class Employees {
 
     @ManyToOne
     @JoinColumn(name = "job_id")
-    private Jobs jobs;
+    private Jobs jobid;
 
     private BigDecimal salary;
     private BigDecimal commission_pct;
@@ -51,7 +51,7 @@ public class Employees {
 
     @ManyToOne
     @JoinColumn(name = "department_id")
-    private Departments departments;
+    private Departments departmentid;
 
     public int getEmployeeid() {
         return employeeid;
@@ -109,12 +109,12 @@ public class Employees {
         this.hiredate = hiredate;
     }
 
-    public Jobs getJobs() {
-        return jobs;
+    public Jobs getJobid() {
+        return jobid;
     }
 
-    public void setJobs(Jobs jobs) {
-        this.jobs = jobs;
+    public void setJobid(Jobs jobid) {
+        this.jobid = jobid;
     }
 
     public BigDecimal getSalary() {
@@ -141,11 +141,11 @@ public class Employees {
         this.employees = employees;
     }
 
-    public Departments getDepartments() {
-        return departments;
+    public Departments getDepartmentid() {
+        return departmentid;
     }
 
-    public void setDepartments(Departments departments) {
-        this.departments = departments;
+    public void setDepartmentid(Departments departmentid) {
+        this.departmentid = departmentid;
     }
 }
