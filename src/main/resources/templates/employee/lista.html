@@ -17,11 +17,11 @@
         <div th:if="${msg3!=null}" class="alert alert-danger" th:text="${msg3}"></div>
         <div th:if="${nohayjefe!=null}" class="alert alert-danger" th:text="${nohayjefe}"></div>
 
-        <form class="form-group mb-3" method="post" th:action="@{/employees/search}">
+        <form class="form-group mb-3" method="post" th:action="@{/employee/search}">
             <div class="input-group-append">
-                <input class="form-control mr-2" placeholder="Texto a buscar" name="name">
+                <input class="form-control mr-2" placeholder="Texto a buscar (Primera letra en mayúscula)" name="name">
                 <button class="btn btn-outline-primary" type="submit">Buscar</button>
-                <a class="btn btn-outline-danger ml-2" th:href="@{/employees}">Limpiar</a>
+                <a class="btn btn-outline-danger ml-2" th:href="@{/employee}">Limpiar</a>
             </div>
         </form>
              <table class="table">

@@ -145,7 +145,7 @@ public class EmployeeController {
     @PostMapping("/search")
     public String buscar (@RequestParam("name") String name, Model model){
         List<Employees> employeesOpt = employeesRepository.listarEmpleadosPorNombreApellidoDepartamentoPuestoCiudad(name);
-        model.addAttribute("listaEmpleados",employeesOpt);
+        model.addAttribute("listaEmployee",employeesOpt);
         return "employee/lista";
     }
 
