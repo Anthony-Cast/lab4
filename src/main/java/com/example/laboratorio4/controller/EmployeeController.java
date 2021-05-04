@@ -1,4 +1,5 @@
 package com.example.laboratorio4.controller;
+import com.example.laboratorio4.entity.Departments;
 import com.example.laboratorio4.entity.Employees;
 import com.example.laboratorio4.repository.DepartmentsRepository;
 import com.example.laboratorio4.repository.EmployeesRepository;
@@ -14,7 +15,9 @@ import javax.jws.WebParam;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -39,8 +42,18 @@ public class EmployeeController {
     }
 
     @GetMapping("/new")
-    public String nuevoEmployeeForm(Model model) {
-        //COMPLETAR
+    public String nuevoEmployeeForm(Model model, @ModelAttribute("employees") Employees employees) {
+
+        model.addAttribute("listaDepartamentos", departmentsRepository.findAll());
+        List<Departments> departmentOpt = departmentsRepository.findAll();
+        List<Departments> departamentosFinales = new ArrayList<Departments>();
+        for (Departments i : departmentOpt){
+            if(i.getManagerid() != null){
+                departamentosFinales.add(i);
+            }
+        }
+        model.addAttribute("listaTrabajos", jobsRepository.findAll());
+        model.addAttribute("listaDepartamentosconJefes", departamentosFinales);
         return "employee/Frm";
     }
 
@@ -77,9 +90,30 @@ public class EmployeeController {
     }
 
     @GetMapping("/edit")
-    public String editarEmployee() {
-
-        //COMPLETAR
+    public String editarEmployee(Model model, @RequestParam("id") int id, @ModelAttribute("employees") Employees employees, RedirectAttributes redirectAttributes ) {
+        Optional<Employees> employeesOptional = employeesRepository.findById(id);
+        if (employeesOptional.isPresent()) {
+            employees = employeesOptional.get();
+            Employees emplo = new Employees();
+            if((emplo = employees.getEmployees()) == null){
+                redirectAttributes.addFlashAttribute("nohayjefe", "No puedes editar a este usuario. MANAGER_ID = NULL");
+                return "redirect:/employees";
+            }
+            model.addAttribute("employee", employees);
+            model.addAttribute("listaDepartamentos", departmentsRepository.findAll());
+            List<Departments> departmentOpt = departmentsRepository.findAll();
+            List<Departments> departamentosFinales = new ArrayList<Departments>();
+            for (Departments i : departmentOpt){
+                if(i.getManagerid() != null){
+                    departamentosFinales.add(i);
+                }
+            }
+            model.addAttribute("listaTrabajos", jobsRepository.findAll());
+            model.addAttribute("listaDepartamentosconJefes", departamentosFinales);
+            return "employee/Frm";
+        } else {
+            return "redirect:/employee";
+        }
     }
 
     @GetMapping("/delete")
