@@ -38,7 +38,7 @@ public class Employees {
     @Positive
     private int salary;
     @Column(name = "manager_id")
-    private Integer managerid;
+    private Employees managerid;
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Departments departmentid;
@@ -116,11 +116,11 @@ public class Employees {
         this.salary = salary;
     }
 
-    public Integer getManagerid() {
+    public Employees getManagerid() {
         return managerid;
     }
 
-    public void setManagerid(Integer managerid) {
+    public void setManagerid(Employees managerid) {
         this.managerid = managerid;
     }
 

@@ -1,5 +1,6 @@
 package com.example.laboratorio4.controller;
 
+import com.example.laboratorio4.entity.Departments;
 import com.example.laboratorio4.entity.Employees;
 import com.example.laboratorio4.repository.DepartmentsRepository;
 import com.example.laboratorio4.repository.EmployeesRepository;
@@ -14,7 +15,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -39,8 +42,18 @@ public class EmployeeController {
     }
 
     @GetMapping("/new")
-    public String nuevoEmployeeForm() {
-        //COMPLETAR
+    public String nuevoEmployeeForm(Model model) {
+        model.addAttribute("listaDepartaments", departmentsRepository.findAll());
+        List<Departments> departmentOpt = departmentsRepository.findAll();
+        List<Departments> departamentosFinales = new ArrayList<Departments>();
+        for (Departments i : departmentOpt){
+            if(i.getManagerid() != null){
+                departamentosFinales.add(i);
+            }
+        }
+        model.addAttribute("listaJobs", jobsRepository.findAll());
+        model.addAttribute("listaDepartamentosconJefes", departamentosFinales);
+
         return "employee/Frm";
     }
 
@@ -71,15 +84,37 @@ public class EmployeeController {
 
                 employeesRepository.save(employees);
                 attr.addFlashAttribute("msg", "Empleado actualizado exitosamente");
-                return "redirect:/employee";
+                return "redirect:/employees";
             }
         }
     }
 
     @GetMapping("/edit")
-    public String editarEmployee() {
+    public String editarEmployee(Model model, @RequestParam("id") int id, @ModelAttribute("employees") Employees employees, RedirectAttributes redirectAttributes) {
+        Optional<Employees> employeesOptional = employeesRepository.findById(id);
+        if (employeesOptional.isPresent()) {
+            employees = employeesOptional.get();
+            Employees emplo = new Employees();
+            if((emplo = employees.getManagerid()) == null){
+                redirectAttributes.addFlashAttribute("nohayjefe", "No puedes editar a este usuario. MANAGER_ID = NULL");
+                return "redirect:/employees";
+            }
+            model.addAttribute("employees", employees);
+            model.addAttribute("listaDepartaments", departmentsRepository.findAll());
+            List<Departments> departmentOpt = departmentsRepository.findAll();
+            List<Departments> departamentosFinales = new ArrayList<Departments>();
+            for (Departments i : departmentOpt){
+                if(i.getManagerid() != null){
+                    departamentosFinales.add(i);
+                }
+            }
+            model.addAttribute("listaJobs", jobsRepository.findAll());
+            model.addAttribute("listaDepartamentosconJefes", departamentosFinales);
+            return "employee/Frm";
+        } else {
+            return "redirect:/employees";
+        }
 
-        //COMPLETAR
     }
 
     @GetMapping("/delete")
